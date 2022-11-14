@@ -1,7 +1,6 @@
 import React from "react";
 import config from "../config.json";
 import styled from "styled-components";
-import { CSSReset } from "../src/components/CSSReset";
 import Menu from "../src/components/Menu/Menu";
 import { StyledTimeline } from "../src/components/Timeline";
 
@@ -9,7 +8,7 @@ function HomePage() {
     const [valorDoFiltro, setValorDoFiltro] = React.useState("");
     return (
         <>
-            <CSSReset />
+            
             <div style={{
                 display: "flex",
                 flexDirection: "column",
@@ -35,13 +34,15 @@ export default HomePage
 }*/
 
 const StyledHeader = styled.div`
+    background-color: ${({theme}) => theme.backgroundLevel1};
+    
     img{
         width: 80px;
         height: 80px;
         border-radius: 50%;
     }
     .user-info{
-        margin-top: 50px;
+
         display: flex;
         align-items: center;
         width: 100%;
@@ -49,10 +50,14 @@ const StyledHeader = styled.div`
         gap: 16px;
     }
 `;
-
+const StyledBanner = styled.div`
+    background-image:url("https://images.unsplash.com/photo-1526374965328-7f61d4dc18c5?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=870&q=80");
+    height: 230px;
+`;
 function Header() {
     return (
         <StyledHeader>
+            <StyledBanner />
             <section className="user-info">
                 <img src={`https://github.com/${config.github}.png`}></img>
                 <div>
@@ -73,7 +78,7 @@ function TimeLine({ searchValue, ...props }) {
                 playlistName.map((playlistName) => {
                     const videos = props.Playlist[playlistName]
                     return (
-                        <section>
+                        <section key = {playlistName}>
                             <h2>{playlistName}</h2>
                             <div>
                                 {
