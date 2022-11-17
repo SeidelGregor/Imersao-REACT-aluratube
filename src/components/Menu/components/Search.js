@@ -34,7 +34,9 @@ const StyledSearch = styled.div`
   }
 `;
 
-export default function Search({ valorDaBusca, setValorDaBusca }) {  
+export default function Search({ valorDoFiltro, setValorDoFiltro }) { 
+  const setValorDaBusca = setValorDoFiltro
+  const valorDaBusca = valorDoFiltro
   return (
     <StyledSearch>
       <input type="text" onChange={(e) => setValorDaBusca(e.target.value)} value={valorDaBusca}/>
