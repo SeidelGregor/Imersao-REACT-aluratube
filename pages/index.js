@@ -3,9 +3,29 @@ import config from "../config.json";
 import styled from "styled-components";
 import Menu from "../src/components/Menu/Menu";
 import { StyledTimeline } from "../src/components/Timeline";
+import { VideoService } from "../src/services/videoService";
+
 
 function HomePage() {
-    const [valorDoFiltro, setValorDoFiltro] = React.useState("");
+    const [valorDoFiltro, setValorDoFiltro] = React.useState("")
+    const [playlist, setPlaylist] = React.useState({})
+    const service = VideoService()
+    React.useEffect(() =>{
+        service
+        .getAllVideo()
+        .then((e) => {
+            console.log(e)
+            const newPlaylist = {...playlist}
+            e.data.forEach((video) =>{
+                if(!newPlaylist[video.playlist]){
+                    newPlaylist[video.playlist] = []
+                }
+                newPlaylist[video.playlist].push(video)
+            })
+            setPlaylist(newPlaylist)
+        })
+    }, [])
+
     return (
         <>
             
@@ -16,7 +36,7 @@ function HomePage() {
             }}>
                 <Menu valorDoFiltro={valorDoFiltro} setValorDoFiltro={setValorDoFiltro} />
                 <Header />
-                <TimeLine searchValue={valorDoFiltro} Playlist={config.playlists}>
+                <TimeLine searchValue={valorDoFiltro} Playlist={playlist}>
                     Conteúdo
                 </TimeLine>
             </div>
@@ -25,13 +45,6 @@ function HomePage() {
 }
 export default HomePage
 
-/*function Menu(){
-    return(
-        <div>
-            Menu
-        </div>
-    );
-}*/
 
 const StyledHeader = styled.div`
     background-color: ${({theme}) => theme.backgroundLevel1};
